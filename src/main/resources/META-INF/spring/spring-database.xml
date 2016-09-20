@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<!-- 基本属性 url、user、password -->
+		<property name="url" value="${user.db.jdbcUrl}" />
+		<property name="username" value="${user.db.username}" />
+		<property name="password" value="${user.db.password}" />
+
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="${user.db.initialSize}" />
+		<property name="minIdle" value="${user.db.minIdle}" />
+		<property name="maxActive" value="${user.db.maxActive}" />
+
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="${user.db.maxWait}" />
+
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000000" />
+
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="validationQuery" value="SELECT 1" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="true" />
+		<property name="testOnReturn" value="true" />
+
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+		<!--property name="poolPreparedStatements" value="true"/> <property name="maxPoolPreparedStatementPerConnectionSize" 
+			value="20"/ -->
+
+		<!-- 配置监控统计拦截的filters。状态统计：stat，日常记录：slf4j <property name="filters" value="stat,slf4j"/> -->
+	</bean>
+
+	<!--配置一个sqlsessionFactory操作数据库，需要给一个数据源 -->
+	<bean name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:META-INF/mybatis/mybatis.xml" />
+		<!--mybatis交给sqlsessionFactory管理，然后交给spring管理 -->
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:com/dzy/mapping/*Mapper.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="dataSource" />
+	</bean>
+
+	<aop:aspectj-autoproxy/>
+	
+	
+	<!-- <bean id="userQueryDslJdbcTemplate" class="com.nonobank.data.jdbc.query.QueryDslJdbcTemplate"> 
+		<constructor-arg ref="jdbcTemplate"/> </bean> -->
+
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- <bean id="defaultEntityUpdateListener" class="com.nonobank.data.repository.listener.DefaultEntityUpdateListener"> 
+		<property name="queryDslJdbcTemplate" ref="userQueryDslJdbcTemplate"/> </bean> 
+		<bean id="defaultEntityInsertListener" class="com.nonobank.data.repository.listener.DefaultEntityInsertListener"/> -->
+	<!-- proxy-target-class=true 表示只扫描实现类（子类）方法上的 @Transactional 注解 -->
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+</beans>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+   
+    <!-- spring redis的缓存层-->
+   
+    
+    
+    <!-- redisFactory的配置 -->
+    <bean id="sentinelConfiguration"
+          class="com.dzy.data.redis.SentinelConfiguration">
+        <property name="masterName" value="${redis.sentinel.name}"/>
+        <property name="sentinels">
+            <set>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg index="0" value="${redis.sentinel1.host}"/>
+                    <constructor-arg index="1" value="${redis.sentinel1.port}"/>
+                </bean>
+                <!-- 配置多个从库
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg index="0" value="${redis.sentinel2.host}"/>
+                    <constructor-arg index="1" value="${redis.sentinel2.port}"/>
+                </bean>   -->
+            </set>
+        </property>
+    </bean>
+    
+    <!-- redisFactory控制的连接工厂 -->
+    <bean id="globalRedisConnectionFactory" destroy-method="destroy"
+          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <constructor-arg index="0" ref="sentinelConfiguration"/>
+        <constructor-arg index="1" ref="poolConfig"></constructor-arg>
+    </bean>
+    
+   <!-- 产生的redisTemplate实例 --> 
+    <bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory" ref="globalRedisConnectionFactory"/>
+    </bean>
+    
+    <!-- 配置一下redis链接数目  -->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">  
+        <property name="maxIdle" value="${redis.maxIdle}" />
+        <property name="maxTotal" value="${redis.maxTotal}" />
+        <property name="maxWaitMillis" value="${redis.maxWaitMillis}"></property>
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+    </bean>    
+
+</beans>

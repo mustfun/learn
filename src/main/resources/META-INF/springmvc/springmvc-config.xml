@@ -1,0 +1,89 @@
+<!-- ~ Copyright (c) 2015. Lorem ipsum dolor sit amet, all right reserved. 
+	~ 本程序所有权归一年e度的夏天所有，如有需要，请联系 ~ email: wuhandzy@gmail.com ~ @版权所有，翻版必究 ~ 原名称：dispatchServlet.xml -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-4.0.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+	<!--配置注解探测器，注解扫描 -->
+	<context:component-scan base-package="com.dzy.controller">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+
+	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+	<!-- <bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"> 
+		<property name="supportedMediaTypes"> <list> <value>text/html;charset=UTF-8</value> 
+		</list> </property> </bean> -->
+		
+
+	<!--处理关系映射 -->
+	<bean id="handleMapping"
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+
+	<!--映射适配器,启用注解功能  原来是AnnotationMethodHandleAdapter现已despected,跟换为RequestMappingHandlerAdapter
+	 -->
+	<bean id="handleAdapter"
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" >
+			<property name="messageConverters">
+			<array>
+				<bean  class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+				<bean  class="org.springframework.http.converter.StringHttpMessageConverter"/>
+				<bean  class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
+				<bean  class="org.springframework.http.converter.FormHttpMessageConverter" />
+				<bean  class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+			</array>
+		</property>
+	</bean>
+
+	<!--定义浏览器访问的首页 -->
+	<mvc:view-controller path="/" />
+	
+	<!-- 定义了这句话之后就可以实现responseBody json的转换 -->
+	<mvc:annotation-driven/>
+
+	<!--配置资源解析路径 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!--通用日期转换器 -->
+	<!-- <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"> 
+		<property name="converters"> <set> <bean class="com.dzy.converter.DateConverter"/> 
+		</set> </property> </bean> <mvc:annotation-driven conversion-service="conversionService"/> -->
+
+	<!--配置上传文件注解器 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="maxUploadSize" value="200000" />   <!--200kb左右的大小 -->
+		<property name="maxInMemorySize" value="40960" /> <!--最大内存大小 -->
+	</bean>
+	<!--springmvc在上传文件超出大小限制的时候，会抛出org.springframework.web.multipart.MaxUploadSizeExceededException -->
+	<!-- 该异常是SpringMVC在检查上传的文件信息时抛出来的，而且此时还没有进入到Controller方法中 -->
+	<bean id="exceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<!-- 遇到MaxUploadSizeExceededException异常时，自动跳转到/WEB-INF/jsp/error_fileupload.jsp页面 -->
+			<props>
+				<prop
+					key="org.springframework.web.multipart.MaxUploadSizeExceededException">error_fileupload</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 配置一下自定义的拦截器,先注释掉吧 -->
+	 <mvc:interceptors>
+			<bean class="com.dzy.validation.interceptor.ValidationInterceptor"></bean>
+	</mvc:interceptors> 
+
+</beans>

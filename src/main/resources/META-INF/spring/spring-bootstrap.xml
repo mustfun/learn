@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!--加载含有数据链接的个配置文件 -->
+	<context:property-placeholder
+		location="classpath:/META-INF/config/app-database.properties"
+		ignore-unresolvable="true" />
+	<context:property-placeholder
+		location="classpath:/META-INF/config/app-config.properties"
+		ignore-unresolvable="true" />
+
+
+
+	<import resource="classpath:/META-INF/spring/spring-database.xml" />
+	<import resource="classpath:/META-INF/spring/spring-config.xml" />
+	<import resource="classpath:/META-INF/spring/spring-dao.xml" />
+	<import resource="classpath:/META-INF/spring/spring-cache.xml" />
+
+	<!-- <import resource="classpath:/META-INF/spring/spring-cache.xml"/> <import 
+		resource="classpath:/META-INF/spring/spring-aop.xml"/> <import resource="classpath:/META-INF/spring/spring-source.xml"/> 
+		<import resource="classpath:/META-INF/spring/spring-shiro-web.xml"/> <import 
+		resource="classpath:/META-INF/spring/spring-context.xml"/> -->
+
+
+	<context:component-scan base-package="com.dzy"
+		use-default-filters="false">
+		<!-- 只扫描repository、service、Component -->
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Repository" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Component" />
+	</context:component-scan>
+
+	<!-- <bean id="slf4JBridgeHandler" class="org.slf4j.bridge.SLF4JBridgeHandler" 
+		init-method="removeHandlersForRootLogger"/> <bean class="org.slf4j.bridge.SLF4JBridgeHandler" 
+		init-method="install" depends-on="slf4JBridgeHandler"/> -->
+
+	<!-- <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"> 
+		<property name="targetClass" value="uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J"/> 
+		<property name="staticMethod" value="uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J.sendSystemOutAndErrToSLF4J"/> 
+		<property name="arguments"> <list> Set log level for System.out <util:constant 
+		static-field="uk.org.lidalia.sysoutslf4j.context.LogLevel.DEBUG"/> Set log 
+		level for System.err <util:constant static-field="uk.org.lidalia.sysoutslf4j.context.LogLevel.ERROR"/> 
+		</list> </property> </bean> -->
+		
+		
+		
+</beans>
