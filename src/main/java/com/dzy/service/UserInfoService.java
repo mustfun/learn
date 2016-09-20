@@ -12,11 +12,13 @@ public interface UserInfoService {
 	 * @since 2.0
 	 */
 	
-	UserInfo getUserById(int id);  
+	UserInfo getUserById(Long id);
     
     List<UserInfo> getUsers();  
       
     int insert(UserInfo userInfo);  
     
     int updateByIdCondition(UserInfo userInfo);
+
+    List<UserInfo> selectByPrimiryKey(Long id);
 }

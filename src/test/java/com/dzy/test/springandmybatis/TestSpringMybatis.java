@@ -41,11 +41,11 @@ public class TestSpringMybatis {
         LOG.info(JSON.toJSON(userInfos));  
     }  
   
-    //@Test  
+    //@Test
     public void testInsert() {  
         UserInfo userInfo = new UserInfo();  
         userInfo.setUname("xiaoming");  
-        userInfo.setUnumber(4);  
+        userInfo.setUnumber(4+"");
         int result = userService.insert(userInfo);  
         System.out.println(result);  
     }  

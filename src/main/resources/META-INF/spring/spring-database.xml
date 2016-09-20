@@ -49,7 +49,7 @@
 		<!--mybatis交给sqlsessionFactory管理，然后交给spring管理 -->
 		<property name="mapperLocations">
 			<list>
-				<value>classpath:com/dzy/mapping/*Mapper.xml</value>
+				<value>classpath:mapper/*Mapper.xml</value>
 			</list>
 		</property>
 	</bean>

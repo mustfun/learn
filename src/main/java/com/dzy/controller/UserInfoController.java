@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import com.dzy.bizService.UserInfoHandleService;
 import org.apache.log4j.Logger;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -37,10 +39,13 @@ public class UserInfoController {
 	private UserInfoService userService;
 	@Resource(name="stringRedisTemplate")
 	private StringRedisTemplate redisTemplate;
+	@Resource
+	private UserInfoHandleService userInfoHandleService;
+
 
 	
 	@RequestMapping("showInfo/{userId}")
-	public String showUserInfo(ModelMap modelMap, @PathVariable int userId) {
+	public String showUserInfo(ModelMap modelMap, @PathVariable Long userId) {
 		UserInfo userInfo = userService.getUserById(userId);
 		modelMap.addAttribute("userInfo", userInfo);
 		return "user/showInfo";
@@ -80,7 +85,7 @@ public class UserInfoController {
 	{
 		try {
 			Long time1=System.currentTimeMillis();
-			UserInfo userInfo = userService.getUserById(Integer.parseInt(request));
+			UserInfo userInfo = userService.getUserById(Long.parseLong(request));
 			if (userInfo.getUname().equals("晓明7")) {
 				System.out.println(request+"----------"+time1+userInfo.getUname());
 			}
@@ -93,6 +98,20 @@ public class UserInfoController {
 			// TODO: handle exception
 		}
 		return null;
+	}
+
+	/**
+	 * 这个类就测试一下并发情况下springmvc的表现吧，很期待
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "testLock",method = RequestMethod.GET)
+	public ReturnBase testLock(HttpServletRequest request)
+	{
+		String id=request.getParameter("terminal");
+		LOG.info(id+"号客户端正在抢占资源");
+		ReturnBase rb=new ReturnBase();
+		return userInfoHandleService.testLock(id);
 	}
 
 }

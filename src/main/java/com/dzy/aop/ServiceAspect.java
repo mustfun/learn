@@ -43,7 +43,7 @@ public class ServiceAspect {
 		if (LOG.isInfoEnabled()) {
 			LOG.info("before " + joinPoint);
 		}
-		System.out.println("切入时候前置通知");
+		System.out.println("切入时候前置通知"+joinPoint.getArgs()[0].toString());
 	}
 
 	// 配置后置通知,使用在方法aspect()上注册的切入点
@@ -75,7 +75,7 @@ public class ServiceAspect {
 			}
 		}
 		//这个value就是我们方法执行之后的返回值
-		LOG.info("------------------------"+returnValues);
+		LOG.info("--------------------------------"+returnValues);
 		return returnValues;
 	}
 

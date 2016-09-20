@@ -21,9 +21,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Autowired
 	private UserInfoMapper userInfoMapper;
 
-	
+
 	@Override
-	public UserInfo getUserById(int id) {
+	public UserInfo getUserById(Long id) {
 		return userInfoMapper.selectByPrimaryKey(id);
 	}
 
@@ -45,6 +45,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public int updateByIdCondition(UserInfo userInfo) {
 		// TODO Auto-generated method stub
 		return userInfoMapper.updateByIdCondition(userInfo);
+	}
+
+	@Override
+	public List<UserInfo> selectByPrimiryKey(Long id) {
+		return null;
 	}
 
 }
