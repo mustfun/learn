@@ -111,7 +111,7 @@ public class UserInfoController {
 		String id=request.getParameter("terminal");
 		LOG.info(id+"号客户端正在抢占资源");
 		ReturnBase rb=new ReturnBase();
-		return userInfoHandleService.testLock(id);
+		return userInfoHandleService.testRetrantLock(id);
 	}
 
 }

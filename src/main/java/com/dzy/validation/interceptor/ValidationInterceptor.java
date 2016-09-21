@@ -38,7 +38,7 @@ public class ValidationInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
 		String param = request.getParameter("request");
-		System.out.println(this.getClass().getName()+"拦截器已经进入！！！");
+		//System.out.println(this.getClass().getName()+"拦截器已经进入！！！");
 		//这种拦截器可以注入service，然后进行记录日志！
 		/*ReturnBase returnBase = ValidationHandler.getInstance().handler(param,
 				null);

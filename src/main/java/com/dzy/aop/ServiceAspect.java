@@ -31,7 +31,7 @@ public class ServiceAspect {
 	// 上面一种方式是可行的，下面用注解来弄试试
 	//@Pointcut(value = "@annotation(com.dzy.validation.annotation.NotEmpty)")
 	
-	@Pointcut("execution(* com.dzy.service.impl..*.*(..))")
+	@Pointcut("execution(* com.dzy.service.impl.bujiankongle..*.*(..))")
 	public void aspect() {
 	}
 
