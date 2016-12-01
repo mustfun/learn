@@ -173,6 +173,20 @@
 		    <version>${jackson.version}</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${commons.codec.version}</version>
+		</dependency>
+
+
 	</dependencies>
 	<build>
 		<finalName>learn</finalName>
@@ -256,6 +270,8 @@
 		<commons-fileupload.version>1.2.2</commons-fileupload.version>
 		<jedis.version>2.6.0</jedis.version>
 		<spring-data-redis.version>1.6.4.RELEASE</spring-data-redis.version>
+		<guava.version>18.0</guava.version>
+		<commons.codec.version>1.9</commons.codec.version>
 
 	</properties>
 

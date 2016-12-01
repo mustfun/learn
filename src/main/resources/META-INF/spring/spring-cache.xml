@@ -30,7 +30,7 @@
     <bean id="globalRedisConnectionFactory" destroy-method="destroy"
           class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
         <constructor-arg index="0" ref="sentinelConfiguration"/>
-        <constructor-arg index="1" ref="poolConfig"></constructor-arg>
+        <constructor-arg index="1" ref="poolConfig"/>
     </bean>
     
    <!-- 产生的redisTemplate实例 --> 
@@ -42,7 +42,7 @@
     <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">  
         <property name="maxIdle" value="${redis.maxIdle}" />
         <property name="maxTotal" value="${redis.maxTotal}" />
-        <property name="maxWaitMillis" value="${redis.maxWaitMillis}"></property>
+        <property name="maxWaitMillis" value="${redis.maxWaitMillis}"/>
         <property name="testOnBorrow" value="${redis.testOnBorrow}" />
     </bean>    
 
