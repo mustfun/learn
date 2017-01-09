@@ -83,4 +83,40 @@ public class UserInfoHandleService {
             return returnBase;
         }
     }
+
+    /**
+     * 然后测试下一读写锁的性能
+     * @param id
+     * @return
+     */
+    public  ReturnBase  testRetrantReadWriteLock(String id) {
+        ReturnBase returnBase=new ReturnBase();
+        Long myid=20124045015l;
+
+        myLock.readLock().lock();
+        UserInfo userById = userInfoService.getUserById(myid);
+        String unumber = userById.getUnumber();
+        int sum=Integer.parseInt(unumber);//有1000个库存
+        LOG.info("用户"+id+"准备消费库存============剩余库存"+sum);
+        myLock.readLock().unlock();
+        //准备写入
+        myLock.readLock().lock();
+        myLock.writeLock().lock();
+
+        sum=sum-1;
+        UserInfo userInfo=new UserInfo();
+        userInfo.setId(myid);
+        userInfo.setUnumber(sum+"");
+        int i=userInfoService.updateByIdCondition(userInfo);
+        LOG.info("用户"+id+"消费完毕之后============还余库存"+sum);
+        myLock.writeLock().unlock();
+        myLock.readLock().unlock();
+        if (i>0){
+            return returnBase;
+        }else{
+            returnBase.setFlag("-1");
+            returnBase.setMsg("出现未知错误");
+            return returnBase;
+        }
+    }
 }
