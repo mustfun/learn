@@ -9,10 +9,7 @@
 
 	<!--加载含有数据链接的个配置文件 -->
 	<context:property-placeholder
-		location="classpath:/META-INF/config/app-database.properties"
-		ignore-unresolvable="true" />
-	<context:property-placeholder
-		location="classpath:/META-INF/config/app-config.properties"
+		location="classpath:/META-INF/config/dev/*.properties"
 		ignore-unresolvable="true" />
 
 
