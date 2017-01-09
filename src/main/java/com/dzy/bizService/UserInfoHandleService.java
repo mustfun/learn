@@ -60,25 +60,21 @@ public class UserInfoHandleService {
     public  ReturnBase  testRetrantLock(String id) {
         ReturnBase returnBase=new ReturnBase();
         Long myid=20124045015l;
-        myLock.readLock().lock();
+
+        myLock.writeLock().lock();
+
         UserInfo userById = userInfoService.getUserById(myid);
         String unumber = userById.getUnumber();
-        myLock.readLock().unlock();
         int sum=Integer.parseInt(unumber);//有1000个库存
         LOG.info("用户"+id+"准备消费库存============剩余库存"+sum);
         //准备写入
-        myLock.writeLock().lock();
         sum=sum-1;
-        myLock.readLock().lock();
-        myLock.writeLock().unlock();
         UserInfo userInfo=new UserInfo();
         userInfo.setId(myid);
         userInfo.setUnumber(sum+"");
-        myLock.readLock().unlock();
-        myLock.writeLock().lock();
         int i=userInfoService.updateByIdCondition(userInfo);
-        myLock.writeLock().unlock();
         LOG.info("用户"+id+"消费完毕之后============还余库存"+sum);
+        myLock.writeLock().unlock();
         if (i>0){
             return returnBase;
         }else{

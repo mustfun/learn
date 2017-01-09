@@ -49,9 +49,10 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	<!--*.action表示只有action能拦截,这样就能拦截所有的-->
 	<servlet-mapping>
 		<servlet-name>dispatcherServlet</servlet-name>
-		<url-pattern>*.action</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
 	<!-- 配置session超时时间，单位分钟 -->
