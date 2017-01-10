@@ -100,17 +100,17 @@ public class UserInfoHandleService {
         LOG.info("用户"+id+"准备消费库存============剩余库存"+sum);
         myLock.readLock().unlock();
         //准备写入
-        myLock.readLock().lock();
         myLock.writeLock().lock();
-
+        myLock.readLock().lock();
         sum=sum-1;
         UserInfo userInfo=new UserInfo();
         userInfo.setId(myid);
         userInfo.setUnumber(sum+"");
         int i=userInfoService.updateByIdCondition(userInfo);
         LOG.info("用户"+id+"消费完毕之后============还余库存"+sum);
-        myLock.writeLock().unlock();
+
         myLock.readLock().unlock();
+        myLock.writeLock().unlock();
         if (i>0){
             return returnBase;
         }else{
