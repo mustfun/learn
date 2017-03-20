@@ -33,7 +33,10 @@ public class TestLambda {
         /**
          * 改变list里面的一个值
          */
-        list.stream().map(user->{user.setUnumber(MD5Util.toMD5(user.getUnumber()));return user;}).collect(Collectors.toList());
+        list.stream().map(user->{
+            user.setUnumber(MD5Util.toMD5(user.getUnumber()));
+            return user;
+        }).collect(Collectors.toList());
         for (int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i).getUnumber());
 
