@@ -176,6 +176,14 @@
 			<version>${commons.codec.version}</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.netflix.hystrix/hystrix-dashboard -->
+		<dependency>
+			<groupId>com.netflix.hystrix</groupId>
+			<artifactId>hystrix-core</artifactId>
+			<version>${hystrix.version}</version>
+		</dependency>
+
+
 
 	</dependencies>
 	<build>
@@ -262,6 +270,7 @@
 		<spring-data-redis.version>1.6.4.RELEASE</spring-data-redis.version>
 		<guava.version>18.0</guava.version>
 		<commons.codec.version>1.9</commons.codec.version>
+		<hystrix.version>1.5.12</hystrix.version>
 
 	</properties>
 

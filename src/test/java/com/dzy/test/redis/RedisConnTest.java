@@ -11,9 +11,9 @@ import redis.clients.jedis.Jedis;
 public class RedisConnTest {
 
 			//一开始连接不上，后来关闭linux的防火墙功能就可以了
-	       static String constr = "192.168.17.222" ;
+	       static String constr = "192.168.155.153" ;
 	       public static Jedis getRedis(){
-	          Jedis jedis = new Jedis(constr,6380) ;
+	          Jedis jedis = new Jedis(constr,6379) ;
 	            
 	          return jedis ;
 	      }
@@ -23,5 +23,9 @@ public class RedisConnTest {
 	            System.out.println(clusterInfo);
 
 	            System.out.println(j.clientList());
-	      }
+
+	            j.set("mykey","myvalue");
+	            j.set("you can ","I can");
+			   System.out.println(j.get("mykey"));
+		   }
 	}
