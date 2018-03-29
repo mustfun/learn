@@ -1,5 +1,6 @@
 package com.dzy.test.ordiry;
 
+import com.alibaba.druid.filter.config.ConfigTools;
 import org.junit.Test;
 
 import java.text.ParseException;
@@ -34,4 +35,30 @@ public class TimeTest {
         System.out.println(i==System.currentTimeMillis()/1000/3600);
 
     }
+
+    @Test
+    public void testInteger(){
+        Integer a = Integer.parseInt("-07554");
+        System.out.println("a = " + a);
+        long l = Long.parseLong("-07554");
+        System.out.println("l = " + l);
+    }
+
+    @Test
+    public void testOneDivideZero() {
+        int a = 1;
+        switch (a) {
+            case 1:
+                System.out.println("加了之后还会不会");
+            case 2:
+                System.out.println(a+"的值");
+                break;
+            case 3:
+                System.out.println("3");
+                break;
+            default:
+                break;
+        }
+    }
+
 }
