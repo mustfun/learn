@@ -42,6 +42,15 @@ public class UserInfoController {
 	@Resource
 	private UserInfoHandleService userInfoHandleService;
 
+	/**
+	 *  http://localhost:8080/userInfo/testUser.action
+	 * @return
+	 */
+	@RequestMapping("testUser")
+	@ResponseBody
+	public Object testUser() {
+		return 1L;
+	}
 
 	
 	@RequestMapping("showInfo/{userId}")
@@ -52,7 +61,8 @@ public class UserInfoController {
 	}
 	
 	@RequestMapping("showInfos")
-	public @ResponseBody Object showUserInfos() {
+	@ResponseBody
+	public  Object showUserInfos() {
 		List<UserInfo> userInfos = userService.getUsers();
 		return JSON.toJSON(userInfos).toString();
 	}
