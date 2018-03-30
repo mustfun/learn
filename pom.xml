@@ -183,6 +183,11 @@
 			<version>${hystrix.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.github.mustfun</groupId>
+			<artifactId>warning-control-core</artifactId>
+			<version>1.0.1</version>
+		</dependency>
 
 
 	</dependencies>
