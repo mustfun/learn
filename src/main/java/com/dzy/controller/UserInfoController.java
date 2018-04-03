@@ -49,6 +49,10 @@ public class UserInfoController {
 	@RequestMapping("testUser")
 	@ResponseBody
 	public Object testUser() {
+		LOG.info("这日志真的能够打印吗、");
+		if (true){
+			throw new NullPointerException("fdsfds");
+		}
 		return 1L;
 	}
 

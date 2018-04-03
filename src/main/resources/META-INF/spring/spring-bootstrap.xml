@@ -47,7 +47,7 @@
 		static-field="uk.org.lidalia.sysoutslf4j.context.LogLevel.DEBUG"/> Set log 
 		level for System.err <util:constant static-field="uk.org.lidalia.sysoutslf4j.context.LogLevel.ERROR"/> 
 		</list> </property> </bean> -->
-		
+
 		
 		
 </beans>

@@ -12,4 +12,6 @@
         <property name="basePackage" value="com.dzy.dao" />
     </bean>
 
+    <bean class="com.github.mustfun.warning.core.processor.WarningControlPostProcessor"/>
+
 </beans>
