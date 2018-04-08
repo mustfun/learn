@@ -34,6 +34,8 @@
 			expression="org.springframework.stereotype.Service" />
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Component" />
+		<context:exclude-filter type="annotation"
+								expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
 	<!-- <bean id="slf4JBridgeHandler" class="org.slf4j.bridge.SLF4JBridgeHandler" 
